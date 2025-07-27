@@ -5,16 +5,21 @@
     <link>http://localhost:1313/categories/a-journey-through-leetcode-with-go/</link>
     <description>Recent content in A Journey Through Leetcode With Go on bbuild</description>
     <generator>Hugo -- 0.148.1</generator>
-    <language>en-us</language>
+    <language>en</language>
     <lastBuildDate>Sat, 26 Jul 2025 17:05:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/a-journey-through-leetcode-with-go/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>A journey through Leetcode with Go: Two Sum</title>
+      <title>Journeying through Leetcode with Go: Two Sum</title>
       <link>http://localhost:1313/posts/projects/a-journey-through-leetcode-with-go/introduction/</link>
       <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/projects/a-journey-through-leetcode-with-go/introduction/</guid>
-      <description>&lt;p&gt;Hey, welcome to bbuild.me!&lt;/p&gt;
-&lt;p&gt;A personal&lt;/p&gt;</description>
+      <description>&lt;h3 id=&#34;introduction&#34;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Hey, welcome to the first of a series of new posts about Go and Leetcode.&lt;/p&gt;
+&lt;p&gt;The purpose of this series is to break down the process of working through a variety of Leetcode issues using first principles thinking. I have chosen Go for this because it is the language that I am personally most comfortable with.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;the-problem-two-sum&#34;&gt;The Problem: Two Sum&lt;/h3&gt;
+&lt;p&gt;Here&amp;rsquo;s what we need to do:&lt;/p&gt;
+&lt;p&gt;Given an array of numbers and a target number, find two numbers in the array that add up to the target. Return their positions (indices) in the array.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

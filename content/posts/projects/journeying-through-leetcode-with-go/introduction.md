@@ -9,7 +9,7 @@ showToc: true
 TocOpen: false
 weight: 1
 cover:
-    image: "images/gopher.jpg"
+    image: "/images/gopher.jpg"
     alt: "Golang Gopher"
 ---
 

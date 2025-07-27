@@ -25,11 +25,5 @@
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
     <lastmod>2025-07-26T17:05:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/aws/</loc>
-  </url><url>
-    <loc>http://localhost:1313/tags/cloud/</loc>
-  </url><url>
-    <loc>http://localhost:1313/categories/my-leetcode-journey/</loc>
   </url>
 </urlset>

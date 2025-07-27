@@ -1,5 +1,4 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
+baseURL = 'https://bbuild.me/'
 title = 'bbuild'
 theme = 'PaperMod'
 
@@ -8,7 +7,7 @@ theme = 'PaperMod'
     enabled = true
     title = "Hi, I'm Ben 👋"
     subtitle = "I am a software engineer who likes to build things and solve problems."
-    imageUrl = "images/me.jpg"
+    imageUrl = "/images/me.jpg"
     imageWidth = 120
     imageHeight = 120
     imageTitle = "my image"
