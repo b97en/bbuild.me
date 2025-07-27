@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Journeying through Leetcode with Go: Two Sum | bbuild</title>
+<meta name="keywords" content="golang, leetcode">
+<meta name="description" content="Introduction
+Hey, welcome to the first of a series of new posts about Go and Leetcode.
+The purpose of this series is to break down the process of working through a variety of Leetcode issues using first principles thinking. I have chosen Go for this because it is the language that I am personally most comfortable with.
+
+The Problem: Two Sum
+Here&rsquo;s what we need to do:
+Given an array of numbers and a target number, find two numbers in the array that add up to the target. Return their positions (indices) in the array.">
+<meta name="author" content="Ben Bullock">
+<link rel="canonical" href="http://localhost:1313/posts/projects/a-journey-through-leetcode-with-go/introduction/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/projects/a-journey-through-leetcode-with-go/introduction/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="bbuild (Alt + H)">bbuild</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Journeying through Leetcode with Go: Two Sum
+    </h1>
+    <div class="post-meta"><span title='2025-07-26 17:05:00 +0000 UTC'>July 26, 2025</span>&nbsp;·&nbsp;Ben Bullock
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="http://localhost:1313/images/gopher.jpg" alt="Golang Gopher">
+        
+</figure><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
+                <li>
+                    <a href="#the-problem-two-sum" aria-label="The Problem: Two Sum">The Problem: Two Sum</a></li>
+                <li>
+                    <a href="#breaking-it-down-" aria-label="Breaking It Down 🔍">Breaking It Down 🔍</a></li>
+                <li>
+                    <a href="#the-simple-approach-brute-force" aria-label="The Simple Approach (Brute Force)">The Simple Approach (Brute Force)</a></li>
+                <li>
+                    <a href="#a-smarter-solution-using-a-map-" aria-label="A Smarter Solution (Using a Map) 🚀">A Smarter Solution (Using a Map) 🚀</a></li>
+                <li>
+                    <a href="#testing-our-solution-" aria-label="Testing Our Solution 🧪">Testing Our Solution 🧪</a></li>
+                <li>
+                    <a href="#why-this-solution-is-better" aria-label="Why This Solution is Better">Why This Solution is Better</a></li>
+                <li>
+                    <a href="#key-takeaways-" aria-label="Key Takeaways 📝">Key Takeaways 📝</a></li>
+                <li>
+                    <a href="#try-it-yourself" aria-label="Try It Yourself!">Try It Yourself!</a></li>
+                <li>
+                    <a href="#whats-next" aria-label="What&rsquo;s Next?">What&rsquo;s Next?</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h3>
+<p>Hey, welcome to the first of a series of new posts about Go and Leetcode.</p>
+<p>The purpose of this series is to break down the process of working through a variety of Leetcode issues using first principles thinking. I have chosen Go for this because it is the language that I am personally most comfortable with.</p>
+<hr>
+<h3 id="the-problem-two-sum">The Problem: Two Sum<a hidden class="anchor" aria-hidden="true" href="#the-problem-two-sum">#</a></h3>
+<p>Here&rsquo;s what we need to do:</p>
+<p>Given an array of numbers and a target number, find two numbers in the array that add up to the target. Return their positions (indices) in the array.</p>
+<p>Example:</p>
+<p>Input: nums = [2, 7, 11, 15], target = 9</p>
+<p>Output: [0, 1]</p>
+<p>Why? Because nums[0] + nums[1] = 2 + 7 = 9</p>
+<h3 id="breaking-it-down-">Breaking It Down 🔍<a hidden class="anchor" aria-hidden="true" href="#breaking-it-down-">#</a></h3>
+<p>What we&rsquo;re given:</p>
+<ul>
+<li>
+<p>An array of integers (can be positive, negative, or zero)</p>
+</li>
+<li>
+<p>A target number we&rsquo;re trying to reach</p>
+</li>
+</ul>
+<p>What we need to find:</p>
+<ul>
+<li>
+<p>The positions of two different numbers that add up to our target</p>
+</li>
+<li>
+<p>Important notes:</p>
+</li>
+<li>
+<p>We need the positions, not the actual numbers</p>
+</li>
+<li>
+<p>We can&rsquo;t use the same position twice</p>
+</li>
+<li>
+<p>There&rsquo;s always exactly one solution</p>
+</li>
+</ul>
+<h3 id="the-simple-approach-brute-force">The Simple Approach (Brute Force)<a hidden class="anchor" aria-hidden="true" href="#the-simple-approach-brute-force">#</a></h3>
+<p>Let&rsquo;s start with the most straightforward solution - check every possible pair:</p>
+<pre tabindex="0"><code>gofunc TwoSumBruteForce(nums []int, target int) []int {
+    // Check every pair of numbers
+    for i := 0; i &lt; len(nums); i++ {
+        for j := i + 1; j &lt; len(nums); j++ {
+            if nums[i] + nums[j] == target {
+                return []int{i, j}
+            }
+        }
+    }
+    return nil
+}
+</code></pre><p>This works! But if we have a large array, it&rsquo;s quite slow because we&rsquo;re checking every single pair.</p>
+<h3 id="a-smarter-solution-using-a-map-">A Smarter Solution (Using a Map) 🚀<a hidden class="anchor" aria-hidden="true" href="#a-smarter-solution-using-a-map-">#</a></h3>
+<p>Here&rsquo;s a clever trick: as we go through the array, we can remember which numbers we&rsquo;ve seen and where we saw them.</p>
+<p>The idea:</p>
+<ul>
+<li>
+<p>For each number, calculate what number we&rsquo;d need to reach the target</p>
+</li>
+<li>
+<p>Check if we&rsquo;ve already seen that number</p>
+</li>
+<li>
+<p>If yes, we found our pair! If no, remember this number for later</p>
+</li>
+</ul>
+<p>Now here&rsquo;s the code:</p>
+<pre tabindex="0"><code>package twosum
+
+// TwoSum finds two numbers that add up to the target
+func TwoSum(nums []int, target int) []int {
+    // This map remembers: number -&gt; position
+    seen := make(map[int]int)
+    
+    for i, num := range nums {
+        // What number would we need to reach the target?
+        needed := target - num
+        
+        // Have we seen this number before?
+        if position, found := seen[needed]; found {
+            // Yes! We found our pair
+            return []int{position, i}
+        }
+        
+        // Remember this number and its position
+        seen[num] = i
+    }
+    
+    return nil // This shouldn&#39;t happen based on the problem
+}
+</code></pre><h3 id="testing-our-solution-">Testing Our Solution 🧪<a hidden class="anchor" aria-hidden="true" href="#testing-our-solution-">#</a></h3>
+<p>Always test your code! Here&rsquo;s a simple test:</p>
+<pre tabindex="0"><code>gofunc TestTwoSum(t *testing.T) {
+    // Test case 1: Basic example
+    nums := []int{2, 7, 11, 15}
+    target := 9
+    result := TwoSum(nums, target)
+    
+    // Should return [0, 1] because 2 + 7 = 9
+    if result[0] != 0 || result[1] != 1 {
+        t.Errorf(&#34;Expected [0, 1], got %v&#34;, result)
+    }
+    
+    // Test case 2: Numbers in the middle
+    nums2 := []int{3, 2, 4}
+    target2 := 6
+    result2 := TwoSum(nums2, target2)
+    
+    // Should return [1, 2] because 2 + 4 = 6
+    if result2[0] != 1 || result2[1] != 2 {
+        t.Errorf(&#34;Expected [1, 2], got %v&#34;, result2)
+    }
+}
+</code></pre><h3 id="why-this-solution-is-better">Why This Solution is Better<a hidden class="anchor" aria-hidden="true" href="#why-this-solution-is-better">#</a></h3>
+<p>The brute force approach:</p>
+<ul>
+<li>
+<p>Checks every pair: if we have 1000 numbers, that&rsquo;s almost 500,000 checks!</p>
+</li>
+<li>
+<p>Time complexity: O(n²) - gets much slower as the array grows</p>
+</li>
+</ul>
+<p>The map approach:</p>
+<ul>
+<li>
+<p>Goes through the array just once</p>
+</li>
+<li>
+<p>Time complexity: O(n) - much faster!</p>
+</li>
+<li>
+<p>Trade-off: uses a bit more memory to store the map</p>
+</li>
+</ul>
+<h3 id="key-takeaways-">Key Takeaways 📝<a hidden class="anchor" aria-hidden="true" href="#key-takeaways-">#</a></h3>
+<ul>
+<li>
+<p>Start simple: It&rsquo;s okay to write the brute force solution first</p>
+</li>
+<li>
+<p>Look for patterns: Can we avoid repeated work?</p>
+</li>
+<li>
+<p>Use data structures: Maps (hash tables) are great for &ldquo;have I seen this before?&rdquo; problems</p>
+</li>
+<li>
+<p>Test your code: Always verify with different examples</p>
+</li>
+</ul>
+<h3 id="try-it-yourself">Try It Yourself!<a hidden class="anchor" aria-hidden="true" href="#try-it-yourself">#</a></h3>
+<p>Here are some test cases to practice with:</p>
+<ul>
+<li>
+<p>[3, 3] with target 6</p>
+</li>
+<li>
+<p>[-1, -2, -3, -4, -5] with target -8</p>
+</li>
+<li>
+<p>[0, 4, 3, 0] with target 0</p>
+</li>
+</ul>
+<hr>
+<h3 id="whats-next">What&rsquo;s Next?<a hidden class="anchor" aria-hidden="true" href="#whats-next">#</a></h3>
+<p>This &ldquo;Two Sum&rdquo; problem introduces a common pattern in programming: using a hash map to remember things we&rsquo;ve seen.</p>
+<p>You&rsquo;ll see this pattern again in problems like:</p>
+<ul>
+<li>Finding duplicates</li>
+<li>Checking if two strings are anagrams</li>
+<li>Finding pairs with a specific difference</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/golang/">Golang</a></li>
+      <li><a href="http://localhost:1313/tags/leetcode/">Leetcode</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">bbuild</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
