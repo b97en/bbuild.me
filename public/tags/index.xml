@@ -4,10 +4,24 @@
     <title>Tags on bbuild</title>
     <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on bbuild</description>
-    <generator>Hugo -- 0.148.1</generator>
+    <generator>Hugo -- 0.148.2</generator>
     <language>en</language>
     <lastBuildDate>Sat, 26 Jul 2025 17:05:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cricket</title>
+      <link>http://localhost:1313/tags/cricket/</link>
+      <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/cricket/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Data</title>
+      <link>http://localhost:1313/tags/data/</link>
+      <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/data/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Golang</title>
       <link>http://localhost:1313/tags/golang/</link>
@@ -16,10 +30,24 @@
       <description></description>
     </item>
     <item>
+      <title>Jupyter</title>
+      <link>http://localhost:1313/tags/jupyter/</link>
+      <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/jupyter/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Leetcode</title>
       <link>http://localhost:1313/tags/leetcode/</link>
       <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/leetcode/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>http://localhost:1313/tags/python/</link>
+      <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/python/</guid>
       <description></description>
     </item>
   </channel>

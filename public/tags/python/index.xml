@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>bbuild</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on bbuild</description>
+    <title>Python on bbuild</title>
+    <link>http://localhost:1313/tags/python/</link>
+    <description>Recent content in Python on bbuild</description>
     <generator>Hugo -- 0.148.2</generator>
     <language>en</language>
     <lastBuildDate>Sat, 26 Jul 2025 17:05:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Discovering Cricket Data</title>
       <link>http://localhost:1313/posts/projects/cricket-data/introduction/</link>
@@ -17,7 +17,6 @@
 &lt;p&gt;I am a fan of many sports, and a keen reader of cricket &amp;amp; football analytics writers.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll walk you through this introductory learning session where I unpack some T20 cricket data from cricsheet.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;First of all, I&amp;rsquo;ll setup my working environment &amp;amp; download some csv&amp;rsquo;s from cricsheet:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mkdir -p cricket-analytics/{etl,model,newsletter,data_dictionary}
 cd cricket-analytics
@@ -25,19 +24,6 @@ cd cricket-analytics
 curl -O https://cricsheet.org/downloads/t20s_csv2.zip
 unzip t20s_csv2.zip
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, I&amp;rsquo;ll open up some sample CSV&amp;rsquo;s in my IDE to explore the data and make some notes on the data structures and overall data quality.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Journeying through Leetcode with Go: Two Sum</title>
-      <link>http://localhost:1313/posts/projects/journeying-through-leetcode-with-go/introduction/</link>
-      <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/projects/journeying-through-leetcode-with-go/introduction/</guid>
-      <description>&lt;h3 id=&#34;introduction&#34;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;Hey, welcome to the first of a series of new posts about Go and Leetcode.&lt;/p&gt;
-&lt;p&gt;The purpose of this series is to break down the process of working through a variety of Leetcode issues using first principles thinking. I have chosen Go for this because it is the language that I am personally most comfortable with.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h3 id=&#34;the-problem-two-sum&#34;&gt;The Problem: Two Sum&lt;/h3&gt;
-&lt;p&gt;Here&amp;rsquo;s what we need to do:&lt;/p&gt;
-&lt;p&gt;Given an array of numbers and a target number, find two numbers in the array that add up to the target. Return their positions (indices) in the array.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

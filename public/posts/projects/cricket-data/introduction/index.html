@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Discovering Cricket Data | bbuild</title>
+<meta name="keywords" content="cricket, python, jupyter, data">
+<meta name="description" content="This is my first foray into unpacking datasets using Python &amp; Jupyter.
+I am a fan of many sports, and a keen reader of cricket &amp; football analytics writers.
+I&rsquo;ll walk you through this introductory learning session where I unpack some T20 cricket data from cricsheet.
+
+Prerequisites
+First of all, I&rsquo;ll setup my working environment &amp; download some csv&rsquo;s from cricsheet:
+mkdir -p cricket-analytics/{etl,model,newsletter,data_dictionary}
+cd cricket-analytics
+
+curl -O https://cricsheet.org/downloads/t20s_csv2.zip
+unzip t20s_csv2.zip
+Next, I&rsquo;ll open up some sample CSV&rsquo;s in my IDE to explore the data and make some notes on the data structures and overall data quality.">
+<meta name="author" content="Ben Bullock">
+<link rel="canonical" href="http://localhost:1313/posts/projects/cricket-data/introduction/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/projects/cricket-data/introduction/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="bbuild (Alt + H)">bbuild</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Discovering Cricket Data
+    </h1>
+    <div class="post-meta"><span title='2025-07-26 17:05:00 +0000 UTC'>July 26, 2025</span>&nbsp;·&nbsp;Ben Bullock
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="http://localhost:1313/images/cricket.jpg" alt="T20 Cricketer">
+        
+</figure><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#prerequisites" aria-label="Prerequisites">Prerequisites</a></li>
+                <li>
+                    <a href="#exploring-the-datasets" aria-label="Exploring the datasets">Exploring the datasets</a><ul>
+                        
+                <li>
+                    <a href="#cell-1" aria-label="Cell #1">Cell #1</a></li>
+                <li>
+                    <a href="#cell-2" aria-label="Cell #2:">Cell #2:</a></li>
+                <li>
+                    <a href="#cell-3" aria-label="Cell #3:">Cell #3:</a></li>
+                <li>
+                    <a href="#cell-4" aria-label="Cell #4:">Cell #4:</a></li>
+                <li>
+                    <a href="#cell-5" aria-label="Cell #5">Cell #5</a></li>
+                <li>
+                    <a href="#cell-6" aria-label="Cell #6:">Cell #6:</a></li>
+                <li>
+                    <a href="#cell-7" aria-label="Cell #7:">Cell #7:</a></li></ul>
+                </li>
+                <li>
+                    <a href="#key-takeaways" aria-label="Key Takeaways">Key Takeaways</a></li>
+                <li>
+                    <a href="#whats-next" aria-label="What&rsquo;s Next?">What&rsquo;s Next?</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>This is my first foray into unpacking datasets using Python &amp; Jupyter.</p>
+<p>I am a fan of many sports, and a keen reader of cricket &amp; football analytics writers.</p>
+<p>I&rsquo;ll walk you through this introductory learning session where I unpack some T20 cricket data from cricsheet.</p>
+<hr>
+<h2 id="prerequisites">Prerequisites<a hidden class="anchor" aria-hidden="true" href="#prerequisites">#</a></h2>
+<p>First of all, I&rsquo;ll setup my working environment &amp; download some csv&rsquo;s from cricsheet:</p>
+<pre tabindex="0"><code>mkdir -p cricket-analytics/{etl,model,newsletter,data_dictionary}
+cd cricket-analytics
+
+curl -O https://cricsheet.org/downloads/t20s_csv2.zip
+unzip t20s_csv2.zip
+</code></pre><p>Next, I&rsquo;ll open up some sample CSV&rsquo;s in my IDE to explore the data and make some notes on the data structures and overall data quality.</p>
+<p>First observations are that the info files seem to contain top level match information: the umpire, the teams, the date, the venue etc.</p>
+<p>The base file contains a far more in-depth outlook of a given match:</p>
+<pre tabindex="0"><code>match_id,season,start_date,venue,innings,ball,batting_team,bowling_team,striker,non_striker,bowler,runs_off_bat,extras,wides,noballs,byes,legbyes,penalty,wicket_type,player_dismissed,other_wicket_type,other_player_dismissed
+</code></pre><pre tabindex="0"><code>211028,2005,2005-06-13,The Rose Bowl,1,0.1,England,Australia,ME Trescothick,GO Jones,B Lee,0,0,,,,,,,,,
+</code></pre><p>IE</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: right">match_id</th>
+          <th style="text-align: right">season</th>
+          <th>start_date</th>
+          <th>venue</th>
+          <th style="text-align: right">innings</th>
+          <th style="text-align: right">ball</th>
+          <th>batting_team</th>
+          <th>bowling_team</th>
+          <th>striker</th>
+          <th>non_striker</th>
+          <th>bowler</th>
+          <th style="text-align: right">runs_off_bat</th>
+          <th style="text-align: right">extras</th>
+          <th style="text-align: right">wides</th>
+          <th style="text-align: right">noballs</th>
+          <th style="text-align: right">byes</th>
+          <th style="text-align: right">legbyes</th>
+          <th style="text-align: right">penalty</th>
+          <th>wicket_type</th>
+          <th>player_dismissed</th>
+          <th>other_wicket_type</th>
+          <th>other_player_dismissed</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: right">211028</td>
+          <td style="text-align: right">2005</td>
+          <td>2005-06-13</td>
+          <td>The Rose Bowl</td>
+          <td style="text-align: right">1</td>
+          <td style="text-align: right">0.1</td>
+          <td>England</td>
+          <td>Australia</td>
+          <td>ME Trescothick</td>
+          <td>GO Jones</td>
+          <td>B Lee</td>
+          <td style="text-align: right">0</td>
+          <td style="text-align: right">0</td>
+          <td style="text-align: right"></td>
+          <td style="text-align: right"></td>
+          <td style="text-align: right"></td>
+          <td style="text-align: right"></td>
+          <td style="text-align: right"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<p>Now I have a rough idea of what I&rsquo;ll be working with, I&rsquo;ll get set up in Jupyter:</p>
+<pre tabindex="0"><code>cd etl &amp;&amp; go mod init cricket-analytics/etl
+cd ../model &amp;&amp; python -m venv venv &amp;&amp; source venv/bin/activate
+pip install pandas pyarrow duckdb jupyterlab
+
+jupyter lab
+</code></pre><p>Next, I&rsquo;ll create a new notebook and start running some ### Cells.</p>
+<hr>
+<h2 id="exploring-the-datasets">Exploring the datasets<a hidden class="anchor" aria-hidden="true" href="#exploring-the-datasets">#</a></h2>
+<h3 id="cell-1">Cell #1<a hidden class="anchor" aria-hidden="true" href="#cell-1">#</a></h3>
+<p>The purpose here is to unpack the CSV files that we have and log some data.</p>
+<pre tabindex="0"><code># Let&#39;s start fresh and see what we&#39;re working with
+import pandas as pd
+import os
+
+# Validate if we have the CSV files
+csv_files = [f for f in os.listdir(&#39;../&#39;) if f.endswith(&#39;.csv&#39;)]
+print(f&#34;Found {len(csv_files)} CSV files&#34;)
+
+if len(csv_files) &gt; 0:
+    # Load the first file without any assumptions
+    df = pd.read_csv(f&#39;../{csv_files[0]}&#39;, header=None)  # No header assumption
+    
+    print(f&#34;\nFile: {csv_files[0]}&#34;)
+    print(f&#34;Shape: {df.shape}&#34;)
+    print(&#34;\nFirst 20 rows, first 5 columns:&#34;)
+    print(df.iloc[:20, :5])
+    
+    print(&#34;\nFirst column values (first 30 rows):&#34;)
+    print(df.iloc[:30, 0].tolist())
+else:
+    print(&#34;No CSV files found! Check if unzip worked correctly.&#34;)
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>Found 8968 CSV files
+
+File: 1327228.csv
+Shape: (242, 22)
+
+First 20 rows, first 5 columns:
+           0       1           2                          3        4
+0   match_id  season  start_date                      venue  innings
+1    1327228    2022  2022-09-20  National Stadium, Karachi        1
+2    1327228    2022  2022-09-20  National Stadium, Karachi        1
+3    1327228    2022  2022-09-20  National Stadium, Karachi        1
+4    1327228    2022  2022-09-20  National Stadium, Karachi        1
+5    1327228    2022  2022-09-20  National Stadium, Karachi        1
+6    1327228    2022  2022-09-20  National Stadium, Karachi        1
+7    1327228    2022  2022-09-20  National Stadium, Karachi        1
+8    1327228    2022  2022-09-20  National Stadium, Karachi        1
+9    1327228    2022  2022-09-20  National Stadium, Karachi        1
+10   1327228    2022  2022-09-20  National Stadium, Karachi        1
+11   1327228    2022  2022-09-20  National Stadium, Karachi        1
+12   1327228    2022  2022-09-20  National Stadium, Karachi        1
+13   1327228    2022  2022-09-20  National Stadium, Karachi        1
+14   1327228    2022  2022-09-20  National Stadium, Karachi        1
+15   1327228    2022  2022-09-20  National Stadium, Karachi        1
+16   1327228    2022  2022-09-20  National Stadium, Karachi        1
+17   1327228    2022  2022-09-20  National Stadium, Karachi        1
+18   1327228    2022  2022-09-20  National Stadium, Karachi        1
+19   1327228    2022  2022-09-20  National Stadium, Karachi        1
+
+First column values (first 30 rows):
+[&#39;match_id&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;, &#39;1327228&#39;]
+</code></pre><h3 id="cell-2">Cell #2:<a hidden class="anchor" aria-hidden="true" href="#cell-2">#</a></h3>
+<p>For the second ### Cell, we want to log the data with headers:</p>
+<pre tabindex="0"><code>df = pd.read_csv(f&#39;../{csv_files[0]}&#39;)  # This will use first row as header
+
+print(&#34;Columns found:&#34;)
+print(df.columns.tolist())
+print(f&#34;\nShape: {df.shape}&#34;)
+print(&#34;\nFirst 5 rows:&#34;)
+df.head()
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>Columns found:
+[&#39;match_id&#39;, &#39;season&#39;, &#39;start_date&#39;, &#39;venue&#39;, &#39;innings&#39;, &#39;ball&#39;, &#39;batting_team&#39;, &#39;bowling_team&#39;, &#39;striker&#39;, &#39;non_striker&#39;, &#39;bowler&#39;, &#39;runs_off_bat&#39;, &#39;extras&#39;, &#39;wides&#39;, &#39;noballs&#39;, &#39;byes&#39;, &#39;legbyes&#39;, &#39;penalty&#39;, &#39;wicket_type&#39;, &#39;player_dismissed&#39;, &#39;other_wicket_type&#39;, &#39;other_player_dismissed&#39;]
+
+Shape: (241, 22)
+
+First 5 rows:
+match_id	season	start_date	venue	innings	ball	batting_team	bowling_team	striker	non_striker	...	extras	wides	noballs	byes	legbyes	penalty	wicket_type	player_dismissed	other_wicket_type	other_player_dismissed
+0	1327228	2022	2022-09-20	National Stadium, Karachi	1	0.1	Pakistan	England	Mohammad Rizwan	Babar Azam	...	0	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	1327228	2022	2022-09-20	National Stadium, Karachi	1	0.2	Pakistan	England	Babar Azam	Mohammad Rizwan	...	0	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+2	1327228	2022	2022-09-20	National Stadium, Karachi	1	0.3	Pakistan	England	Babar Azam	Mohammad Rizwan	...	0	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+3	1327228	2022	2022-09-20	National Stadium, Karachi	1	0.4	Pakistan	England	Mohammad Rizwan	Babar Azam	...	0	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+4	1327228	2022	2022-09-20	National Stadium, Karachi	1	0.5	Pakistan	England	Babar Azam	Mohammad Rizwan	...	0	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+5 rows × 22 columns
+</code></pre><h3 id="cell-3">Cell #3:<a hidden class="anchor" aria-hidden="true" href="#cell-3">#</a></h3>
+<p>Now we&rsquo;ve taken a look at a high-level, lets double-click on some data and see if we can pull some more interesting information:</p>
+<pre tabindex="0"><code># Count balls per innings
+balls_per_innings = df.groupby(&#39;innings&#39;).size()
+print(&#34;Balls per innings:&#34;)
+print(balls_per_innings)
+print(f&#34;\nTotal balls in match: {len(df)}&#34;)
+
+# Check batting team distribution
+if &#39;batting_team&#39; in df.columns:
+    print(&#34;\nBalls per batting team:&#34;)
+    print(df[&#39;batting_team&#39;].value_counts())
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>Balls per innings:
+innings
+1    124
+2    117
+dtype: int64
+
+Total balls in match: 241
+
+Balls per batting team:
+batting_team
+Pakistan    124
+England     117
+Name: count, dtype: int64
+</code></pre><h3 id="cell-4">Cell #4:<a hidden class="anchor" aria-hidden="true" href="#cell-4">#</a></h3>
+<p>Now, lets pull some datatypes and perform some validations for good measure:</p>
+<pre tabindex="0"><code># Data types and nulls
+print(&#34;Data types:&#34;)
+print(df.dtypes)
+
+print(&#34;\nColumns with null values:&#34;)
+null_counts = df.isnull().sum()
+null_cols = null_counts[null_counts &gt; 0]
+if len(null_cols) &gt; 0:
+    print(null_cols)
+else:
+    print(&#34;No null values found!&#34;)
+
+# Get a sense of the numeric columns
+print(&#34;\nNumeric columns summary:&#34;)
+df.describe()
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>Data types:
+match_id                    int64
+season                      int64
+start_date                 object
+venue                      object
+innings                     int64
+ball                      float64
+batting_team               object
+bowling_team               object
+striker                    object
+non_striker                object
+bowler                     object
+runs_off_bat                int64
+extras                      int64
+wides                     float64
+noballs                   float64
+byes                      float64
+legbyes                   float64
+penalty                   float64
+wicket_type                object
+player_dismissed           object
+other_wicket_type         float64
+other_player_dismissed    float64
+dtype: object
+
+Columns with null values:
+wides                     236
+noballs                   241
+byes                      241
+legbyes                   239
+penalty                   241
+wicket_type               230
+player_dismissed          230
+other_wicket_type         241
+other_player_dismissed    241
+dtype: int64
+
+Numeric columns summary:
+match_id	season	innings	ball	runs_off_bat	extras	wides	noballs	byes	legbyes	penalty	other_wicket_type	other_player_dismissed
+count	241.0	241.0	241.000000	241.000000	241.000000	241.000000	5.000000	0.0	0.0	2.0	0.0	0.0	0.0
+mean	1327228.0	2022.0	1.485477	9.721162	1.273859	0.045643	1.800000	NaN	NaN	1.0	NaN	NaN	NaN
+std	0.0	0.0	0.500829	5.708693	1.449030	0.356475	1.788854	NaN	NaN	0.0	NaN	NaN	NaN
+min	1327228.0	2022.0	1.000000	0.100000	0.000000	0.000000	1.000000	NaN	NaN	1.0	NaN	NaN	NaN
+25%	1327228.0	2022.0	1.000000	4.600000	0.000000	0.000000	1.000000	NaN	NaN	1.0	NaN	NaN	NaN
+50%	1327228.0	2022.0	1.000000	9.600000	1.000000	0.000000	1.000000	NaN	NaN	1.0	NaN	NaN	NaN
+75%	1327228.0	2022.0	2.000000	14.600000	1.000000	0.000000	1.000000	NaN	NaN	1.0	NaN	NaN	NaN
+max	1327228.0	2022.0	2.000000	19.600000	6.000000	5.000000	5.000000	NaN	NaN	1.0	NaN	NaN	NaN
+</code></pre><h3 id="cell-5">Cell #5<a hidden class="anchor" aria-hidden="true" href="#cell-5">#</a></h3>
+<p>Lets explore some more columns:</p>
+<pre tabindex="0"><code># Runs distribution
+if &#39;runs_off_bat&#39; in df.columns:
+    print(&#34;Runs per ball distribution:&#34;)
+    print(df[&#39;runs_off_bat&#39;].value_counts().sort_index())
+    
+# Wickets
+if &#39;wicket_type&#39; in df.columns:
+    print(&#34;\nWicket types:&#34;)
+    print(df[&#39;wicket_type&#39;].value_counts())
+    print(f&#34;Total wickets: {df[&#39;wicket_type&#39;].notna().sum()}&#34;)
+
+# Bowlers and batters
+if &#39;striker&#39; in df.columns and &#39;bowler&#39; in df.columns:
+    print(f&#34;\nUnique batters: {df[&#39;striker&#39;].nunique()}&#34;)
+    print(f&#34;Unique bowlers: {df[&#39;bowler&#39;].nunique()}&#34;)
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>Runs per ball distribution:
+runs_off_bat
+0     73
+1    117
+2     12
+3      2
+4     31
+6      6
+Name: count, dtype: int64
+
+Wicket types:
+wicket_type
+caught               6
+bowled               2
+stumped              1
+caught and bowled    1
+lbw                  1
+Name: count, dtype: int64
+Total wickets: 11
+
+Unique batters: 14
+Unique bowlers: 11
+</code></pre><h3 id="cell-6">Cell #6:<a hidden class="anchor" aria-hidden="true" href="#cell-6">#</a></h3>
+<p>Lets produce a metadata repository:</p>
+<pre tabindex="0"><code># Create a summary for your data dictionary
+print(&#34;\n=== DATA DICTIONARY DRAFT ===&#34;)
+print(f&#34;File format: CSV2 (structured ball-by-ball data)&#34;)
+print(f&#34;Total columns: {len(df.columns)}&#34;)
+print(f&#34;Total balls: {len(df)}&#34;)
+
+print(f&#34;\nKey columns found:&#34;)
+for col in df.columns:
+    non_null = df[col].notna().sum()
+    unique = df[col].nunique()
+    dtype = df[col].dtype
+    
+    # Add example values for categorical columns
+    if dtype == &#39;object&#39; and unique &lt; 10:
+        examples = df[col].dropna().unique()[:3]
+        print(f&#34;- {col}: {dtype}, {non_null} non-null, {unique} unique values, e.g. {examples}&#34;)
+    else:
+        print(f&#34;- {col}: {dtype}, {non_null} non-null, {unique} unique values&#34;)
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>=== DATA DICTIONARY DRAFT ===
+File format: CSV2 (structured ball-by-ball data)
+Total columns: 22
+Total balls: 241
+
+Key columns found:
+- match_id: int64, 241 non-null, 1 unique values
+- season: int64, 241 non-null, 1 unique values
+- start_date: object, 241 non-null, 1 unique values, e.g. [&#39;2022-09-20&#39;]
+- venue: object, 241 non-null, 1 unique values, e.g. [&#39;National Stadium, Karachi&#39;]
+- innings: int64, 241 non-null, 2 unique values
+- ball: float64, 241 non-null, 125 unique values
+- batting_team: object, 241 non-null, 2 unique values, e.g. [&#39;Pakistan&#39; &#39;England&#39;]
+- bowling_team: object, 241 non-null, 2 unique values, e.g. [&#39;England&#39; &#39;Pakistan&#39;]
+- striker: object, 241 non-null, 14 unique values
+- non_striker: object, 241 non-null, 15 unique values
+- bowler: object, 241 non-null, 11 unique values
+- runs_off_bat: int64, 241 non-null, 6 unique values
+- extras: int64, 241 non-null, 3 unique values
+- wides: float64, 5 non-null, 2 unique values
+- noballs: float64, 0 non-null, 0 unique values
+- byes: float64, 0 non-null, 0 unique values
+- legbyes: float64, 2 non-null, 1 unique values
+- penalty: float64, 0 non-null, 0 unique values
+- wicket_type: object, 11 non-null, 5 unique values, e.g. [&#39;bowled&#39; &#39;caught&#39; &#39;stumped&#39;]
+- player_dismissed: object, 11 non-null, 11 unique values
+- other_wicket_type: float64, 0 non-null, 0 unique values
+- other_player_dismissed: float64, 0 non-null, 0 unique values
+</code></pre><h3 id="cell-7">Cell #7:<a hidden class="anchor" aria-hidden="true" href="#cell-7">#</a></h3>
+<p>Finally, for a bit of fun, lets produce some match summary insights:</p>
+<pre tabindex="0"><code># Let&#39;s understand the match better
+print(&#34;=== MATCH SUMMARY ===&#34;)
+print(f&#34;Match ID: {df[&#39;match_id&#39;].iloc[0]}&#34;)
+print(f&#34;Date: {df[&#39;start_date&#39;].iloc[0]}&#34;)
+print(f&#34;Venue: {df[&#39;venue&#39;].iloc[0]}&#34;)
+print(f&#34;Teams: {df[&#39;batting_team&#39;].unique()}&#34;)
+
+# Innings breakdown
+for inning in df[&#39;innings&#39;].unique():
+    inning_df = df[df[&#39;innings&#39;] == inning]
+    batting_team = inning_df[&#39;batting_team&#39;].iloc[0]
+    total_runs = inning_df[&#39;runs_off_bat&#39;].sum() + inning_df[&#39;extras&#39;].sum()
+    wickets = inning_df[&#39;wicket_type&#39;].notna().sum()
+    balls = len(inning_df)
+    overs = balls / 6
+    
+    print(f&#34;\nInnings {inning}: {batting_team}&#34;)
+    print(f&#34;  Score: {total_runs}/{wickets} in {overs:.1f} overs&#34;)
+    print(f&#34;  Run rate: {total_runs/overs:.2f}&#34;)
+    
+# Top scorers
+print(&#34;\n=== TOP SCORERS ===&#34;)
+striker_runs = df.groupby(&#39;striker&#39;)[&#39;runs_off_bat&#39;].sum().sort_values(ascending=False).head(5)
+print(striker_runs)
+
+# Top bowlers
+print(&#34;\n=== WICKET TAKERS ===&#34;)
+bowler_wickets = df[df[&#39;wicket_type&#39;].notna()].groupby(&#39;bowler&#39;).size().sort_values(ascending=False)
+print(bowler_wickets)
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>=== MATCH SUMMARY ===
+Match ID: 1327228
+Date: 2022-09-20
+Venue: National Stadium, Karachi
+Teams: [&#39;Pakistan&#39; &#39;England&#39;]
+
+Innings 1: Pakistan
+  Score: 158/7 in 20.7 overs
+  Run rate: 7.65
+
+Innings 2: England
+  Score: 160/4 in 19.5 overs
+  Run rate: 8.21
+
+=== TOP SCORERS ===
+striker
+Mohammad Rizwan    68
+AD Hales           53
+HC Brook           42
+Babar Azam         31
+Iftikhar Ahmed     28
+Name: runs_off_bat, dtype: int64
+
+=== WICKET TAKERS ===
+bowler
+L Wood             3
+AU Rashid          2
+Usman Qadir        2
+Haris Rauf         1
+MM Ali             1
+SM Curran          1
+Shahnawaz Dhani    1
+dtype: int64
+</code></pre><hr>
+<h2 id="key-takeaways">Key Takeaways<a hidden class="anchor" aria-hidden="true" href="#key-takeaways">#</a></h2>
+<p>Through this exploration, I&rsquo;ve discovered:</p>
+<ul>
+<li>Cricsheet&rsquo;s CSV2 format is remarkably clean - one row per ball with clear column names</li>
+<li>The data captures every detail: who bowled to whom, what happened, and the match context</li>
+<li>With 8,968 T20 matches available, there&rsquo;s rich potential for analysis</li>
+<li>Python/Pandas makes it surprisingly easy to extract match narratives from raw data</li>
+</ul>
+<hr>
+<h2 id="whats-next">What&rsquo;s Next?<a hidden class="anchor" aria-hidden="true" href="#whats-next">#</a></h2>
+<p>Now that I understand the data structure, my next steps following the curriculum are:</p>
+<ul>
+<li>Set up AWS infrastructure for automated ingestion</li>
+<li>Build validation schemas to ensure data quality</li>
+<li>Start developing the Empirical Bayes Talent Index</li>
+</ul>
+<p>This foundation will help me move from exploration to building a production analytics pipeline.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/cricket/">Cricket</a></li>
+      <li><a href="http://localhost:1313/tags/python/">Python</a></li>
+      <li><a href="http://localhost:1313/tags/jupyter/">Jupyter</a></li>
+      <li><a href="http://localhost:1313/tags/data/">Data</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">bbuild</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
