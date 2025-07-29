@@ -1,5 +1,5 @@
 ---
-title: "Discovering Cricket Data"
+title: "Discovering Cricket Data #1"
 date: 2025-07-26T17:05:00Z
 draft: false
 tags: ["cricket", "python", "jupyter", "data"]
