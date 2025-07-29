@@ -5,11 +5,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Discovering Cricket Data | bbuild</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/categories/discovering-cricket-data/">
+<title>🛠️ Brookside Forge – Concept Devlog #1: Laying the Foundations | bbuild</title>
+<meta name="keywords" content="gaming, gamedev, brookside, forge, aseprite, godot">
+<meta name="description" content="Welcome to the first official devlog for Brookside Forge! This entry documents the key conceptual milestones and systems we’ve fleshed out in the early design phase of our cozy blacksmith-life sim with folklore-fantasy vibes.
+🎯 Core Vision
+We’ve locked in our high-concept identity:
+A top-down pixel-art adventure where you inherit a forge in post-war Yorkshire, blending British and Japanese smithing, self-sufficient homesteading, and soft-fantasy storytelling.
+Design Pillars:
+Craft &amp; Progression: A blacksmithing system evolving from rudimentary iron tools to mythical Damascus and tamahagane blades.">
+<meta name="author" content="Ben Bullock">
+<link rel="canonical" href="http://localhost:1313/posts/projects/brookside-forge/introduction/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
@@ -18,8 +23,7 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/categories/discovering-cricket-data/index.xml">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/categories/discovering-cricket-data/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/projects/brookside-forge/introduction/">
 <noscript>
     <style>
         #theme-toggle,
@@ -59,7 +63,7 @@
 </noscript>
 </head>
 
-<body class="list" id="top">
+<body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
@@ -102,50 +106,89 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Discovering Cricket Data
-  </h1>
-</header>
+<main class="main">
 
-<article class="post-entry tag-entry"> 
-<figure class="entry-cover">
-        <img loading="lazy" src="http://localhost:1313/images/bf.png" alt="Brookside Forge">
-</figure>
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">🛠️ Brookside Forge – Concept Devlog #1: Laying the Foundations
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Welcome to the first official devlog for Brookside Forge! This entry documents the key conceptual milestones and systems we’ve fleshed out in the early design phase of our cozy blacksmith-life sim with folklore-fantasy vibes.
-Core Vision I’ve locked in our high-concept identity:
-A top-down pixel-art adventure where you inherit a forge in post-war Yorkshire, blending British and Japanese smithing, self-sufficient homesteading, and soft-fantasy storytelling.
-Design Pillars: Craft &amp; Progression: A blacksmithing system evolving from rudimentary iron tools to mythical Damascus and tamahagane blades.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-07-29 18:05:00 +0000 UTC'>July 29, 2025</span>&nbsp;·&nbsp;Ben Bullock</footer>
-  <a class="entry-link" aria-label="post link to 🛠️ Brookside Forge – Concept Devlog #1: Laying the Foundations" href="http://localhost:1313/posts/projects/brookside-forge/introduction/"></a>
-</article>
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      🛠️ Brookside Forge – Concept Devlog #1: Laying the Foundations
+    </h1>
+    <div class="post-meta"><span title='2025-07-29 18:05:00 +0000 UTC'>July 29, 2025</span>&nbsp;·&nbsp;Ben Bullock
 
-<article class="post-entry tag-entry"> 
+</div>
+  </header> 
 <figure class="entry-cover">
-        <img loading="lazy" src="http://localhost:1313/images/cricket.jpg" alt="T20 Cricketer">
+        <img loading="eager" src="http://localhost:1313/images/bf.png" alt="Brookside Forge">
+        
 </figure>
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Discovering Cricket Data #1
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>This is my first foray into unpacking datasets using Python &amp; Jupyter.
-I am a fan of many sports, and a keen reader of cricket &amp; football analytics writers.
-I’ll walk you through this introductory learning session where I unpack some T20 cricket data from cricsheet.
-Prerequisites First of all, I’ll setup my working environment &amp; download some csv’s from cricsheet:
-mkdir -p cricket-analytics/{etl,model,newsletter,data_dictionary} cd cricket-analytics curl -O https://cricsheet.org/downloads/t20s_csv2.zip unzip t20s_csv2.zip Next, I’ll open up some sample CSV’s in my IDE to explore the data and make some notes on the data structures and overall data quality.
-...</p>
+
+  <div class="post-content"><p>Welcome to the first official devlog for Brookside Forge! This entry documents the key conceptual milestones and systems we’ve fleshed out in the early design phase of our cozy blacksmith-life sim with folklore-fantasy vibes.</p>
+<p>🎯 Core Vision</p>
+<p>We’ve locked in our high-concept identity:</p>
+<p>A top-down pixel-art adventure where you inherit a forge in post-war Yorkshire, blending British and Japanese smithing, self-sufficient homesteading, and soft-fantasy storytelling.</p>
+<p>Design Pillars:
+Craft &amp; Progression: A blacksmithing system evolving from rudimentary iron tools to mythical Damascus and tamahagane blades.</p>
+<p>Homestead &amp; Hustle: Farming, bees, jam, wine, stout — all to fund and feed your forge.</p>
+<p>Story &amp; Community: Post-war healing, village revival, and East-West cultural fusion.</p>
+<p>🔨 Systems Progress</p>
+<p>Blacksmithing Progression
+Tiered Forging Path: Surface mining → Bloomery → Alloy mastery → Damascus → Japanese mastery</p>
+<p>Each tier unlocks new gear, materials (e.g., bronze, tamahagane), and techniques (e.g., pattern-welding, differential quenching)</p>
+<p>Signature unlocks: Greataxe, Bronze Serpent Shield, Kensei’s Edge Katana</p>
+<p>Homesteading Economy
+Progression from simple stews and jam to:</p>
+<p>Microbrews (Deepwater Stout)</p>
+<p>Damascus jewelry</p>
+<p>Herbalism + exotic cuisine</p>
+<p>Endgame spirits (Spirit of the Forge whiskey)</p>
+<p>NPC hiring (e.g., apprentice smith, fishmonger, festival coordinator)</p>
+<p>Revenue scaling with prestige commissions and blueprints</p>
+<p>Church &amp; Renown System
+Renown ranks (Novice → Patron) influence:</p>
+<p>NPC perks (discounts, buffs)</p>
+<p>Moral trade-offs (tithes vs. profit)</p>
+<p>Late-game social synergy</p>
+<p>Integrated sidequests tied to infirmary, relic recovery, and chapel building</p>
+<p>🗺️ World Design</p>
+<p>Village Map Regions (Inspired by Clapham, Yorkshire)
+East Side: Brookside Forge, gardens, sawmill, farm</p>
+<p>West Side: Stables, market square, inn, forage meadows</p>
+<p>North: Edward’s Cave — a deep, multi-biome dungeon progression system</p>
+<p>Lower West: School (stat buffs), library (blueprint access)</p>
+<p>Central: Church hub for questing and buffs</p>
+<p>🎮 Gameplay Loop Overview</p>
+<p>Gather – Mine, forage, and farm</p>
+<p>Craft – Forge weapons/tools, cook, brew, and create goods</p>
+<p>Deliver – Fulfill village commissions and side contracts</p>
+<p>Upgrade – Invest in forge gear, homestead expansions, and social perks</p>
+<p>Explore – Venture into caves, ruins, and mythic zones for rare loot</p>
+<p>Repeat – Progress toward mastery and narrative milestones</p>
+<p>🧪 Technical Direction</p>
+<p>Engine: Godot 4</p>
+<p>Art: Aseprite (32x32 or 48x48 sprites)</p>
+<p>Style: Muted earthy palette with fantasy-tinted shaders</p>
+<p>Soundtrack: Lo-fi folk/chiptune fusion with ambient SFX</p>
+<p>Build Pipeline: GitHub Actions for CI/CD + nightly builds</p>
+<p>🔮 What’s Next</p>
+<p>Prototyping the forge minigame and core crafting loop</p>
+<p>Implementing the first tilemap and homestead interactions</p>
+<p>Establishing a vertical slice (Week 4 target)</p>
+<p>Stay tuned for more updates as we begin bringing Brookside Forge to life!</p>
+
+
   </div>
-  <footer class="entry-footer"><span title='2025-07-26 17:05:00 +0000 UTC'>July 26, 2025</span>&nbsp;·&nbsp;Ben Bullock</footer>
-  <a class="entry-link" aria-label="post link to Discovering Cricket Data #1" href="http://localhost:1313/posts/projects/cricket-data/introduction/"></a>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/gaming/">Gaming</a></li>
+      <li><a href="http://localhost:1313/tags/gamedev/">Gamedev</a></li>
+      <li><a href="http://localhost:1313/tags/brookside/">Brookside</a></li>
+      <li><a href="http://localhost:1313/tags/forge/">Forge</a></li>
+      <li><a href="http://localhost:1313/tags/aseprite/">Aseprite</a></li>
+      <li><a href="http://localhost:1313/tags/godot/">Godot</a></li>
+    </ul>
+  </footer>
 </article>
     </main>
     

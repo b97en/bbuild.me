@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Brookside on bbuild</title>
+    <link>http://localhost:1313/tags/brookside/</link>
+    <description>Recent content in Brookside on bbuild</description>
+    <generator>Hugo -- 0.148.2</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 29 Jul 2025 18:05:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/brookside/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🛠️ Brookside Forge – Concept Devlog #1: Laying the Foundations</title>
+      <link>http://localhost:1313/posts/projects/brookside-forge/introduction/</link>
+      <pubDate>Tue, 29 Jul 2025 18:05:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/projects/brookside-forge/introduction/</guid>
+      <description>&lt;p&gt;Welcome to the first official devlog for Brookside Forge! This entry documents the key conceptual milestones and systems we’ve fleshed out in the early design phase of our cozy blacksmith-life sim with folklore-fantasy vibes.&lt;/p&gt;
+&lt;p&gt;Core Vision
+I’ve locked in our high-concept identity:&lt;/p&gt;
+&lt;p&gt;A top-down pixel-art adventure where you inherit a forge in post-war Yorkshire, blending British and Japanese smithing, self-sufficient homesteading, and soft-fantasy storytelling.&lt;/p&gt;
+&lt;p&gt;Design Pillars:
+Craft &amp;amp; Progression: A blacksmithing system evolving from rudimentary iron tools to mythical Damascus and tamahagane blades.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

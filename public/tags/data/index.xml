@@ -9,7 +9,7 @@
     <lastBuildDate>Sat, 26 Jul 2025 17:05:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/data/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Discovering Cricket Data</title>
+      <title>Discovering Cricket Data #1</title>
       <link>http://localhost:1313/posts/projects/cricket-data/introduction/</link>
       <pubDate>Sat, 26 Jul 2025 17:05:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/projects/cricket-data/introduction/</guid>
@@ -17,6 +17,7 @@
 &lt;p&gt;I am a fan of many sports, and a keen reader of cricket &amp;amp; football analytics writers.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll walk you through this introductory learning session where I unpack some T20 cricket data from cricsheet.&lt;/p&gt;
 &lt;hr&gt;
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;First of all, I&amp;rsquo;ll setup my working environment &amp;amp; download some csv&amp;rsquo;s from cricsheet:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mkdir -p cricket-analytics/{etl,model,newsletter,data_dictionary}
 cd cricket-analytics
