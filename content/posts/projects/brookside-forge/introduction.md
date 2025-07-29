@@ -15,7 +15,7 @@ cover:
 
 Welcome to the first official devlog for Brookside Forge! This entry documents the key conceptual milestones and systems we’ve fleshed out in the early design phase of our cozy blacksmith-life sim with folklore-fantasy vibes.
 
-🎯 Core Vision
+### 🎯 Core Vision
 
 We’ve locked in our high-concept identity:
 
@@ -28,7 +28,7 @@ Homestead & Hustle: Farming, bees, jam, wine, stout — all to fund and feed you
 
 Story & Community: Post-war healing, village revival, and East-West cultural fusion.
 
-🔨 Systems Progress
+### 🔨 Systems Progress
 
 Blacksmithing Progression
 Tiered Forging Path: Surface mining → Bloomery → Alloy mastery → Damascus → Japanese mastery
@@ -63,7 +63,7 @@ Late-game social synergy
 
 Integrated sidequests tied to infirmary, relic recovery, and chapel building
 
-🗺️ World Design
+### 🗺️ World Design
 
 Village Map Regions (Inspired by Clapham, Yorkshire)
 East Side: Brookside Forge, gardens, sawmill, farm
@@ -76,7 +76,7 @@ Lower West: School (stat buffs), library (blueprint access)
 
 Central: Church hub for questing and buffs
 
-🎮 Gameplay Loop Overview
+### 🎮 Gameplay Loop Overview
 
 Gather – Mine, forage, and farm
 
@@ -90,7 +90,7 @@ Explore – Venture into caves, ruins, and mythic zones for rare loot
 
 Repeat – Progress toward mastery and narrative milestones
 
-🧪 Technical Direction
+### 🧪 Technical Direction
 
 Engine: Godot 4
 
@@ -102,7 +102,7 @@ Soundtrack: Lo-fi folk/chiptune fusion with ambient SFX
 
 Build Pipeline: GitHub Actions for CI/CD + nightly builds
 
-🔮 What’s Next
+### 🔮 What’s Next
 
 Prototyping the forge minigame and core crafting loop
 

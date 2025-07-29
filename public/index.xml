@@ -14,7 +14,7 @@
       <pubDate>Tue, 29 Jul 2025 18:05:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/projects/brookside-forge/introduction/</guid>
       <description>&lt;p&gt;Welcome to the first official devlog for Brookside Forge! This entry documents the key conceptual milestones and systems we’ve fleshed out in the early design phase of our cozy blacksmith-life sim with folklore-fantasy vibes.&lt;/p&gt;
-&lt;p&gt;🎯 Core Vision&lt;/p&gt;
+&lt;h3 id=&#34;-core-vision&#34;&gt;🎯 Core Vision&lt;/h3&gt;
 &lt;p&gt;We’ve locked in our high-concept identity:&lt;/p&gt;
 &lt;p&gt;A top-down pixel-art adventure where you inherit a forge in post-war Yorkshire, blending British and Japanese smithing, self-sufficient homesteading, and soft-fantasy storytelling.&lt;/p&gt;
 &lt;p&gt;Design Pillars:
